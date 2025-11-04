@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="sp">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="attr.js" defer type="module"></script>
+    <title>Attr JS</title>
+  </head>
+  <body>
+    <div class="container">
+      <div
+        x-data="{
+        volume: 0,
+        state: false
+      }"
+      >
+        <div class="audio">
+          <div
+            style="display: none"
+            @load="
+          $set('volume',parseFloat(JSON.parse(localStorage.getItem('volume'))))
+          $state.$refs.audio.volume = JSON.parse(localStorage.getItem('volume'))
+          "
+          ></div>
+          <h3>
+            Audio volume <strong x-text="(volume * 100).toFixed()"></strong>%
+          </h3>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="1"
+            x-bind="volume"
+            @input="$state.$refs.audio.volume = $event.target.value;
+          localStorage.setItem('volume', JSON.stringify($state.volume))
+          "
+          />
+
+          <audio x-ref="audio">
+            <source
+              src="https://kisskiss.fluidstream.eu/KKItalia.aac?id=b0S08uzZr2&FLID=1"
+              type="audio/mpeg"
+            />
+            Your browser does not support the audio element. Please try a
+            different browser or use your direct link in a media player.
+          </audio>
+          <button
+            @click="
+          if($state.$refs.audio.paused){
+            $set('state', true)
+            $state.$refs.audio.play()
+          } else {
+            $set('state', false)
+            $state.$refs.audio.pause()
+          }"
+            x-text="state ? 'Pause' : 'Play' "
+          >
+            Play
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --bg-color: #ecf0f1;
+      --text-color: #34495e;
+    }
+    * {
+      font-family: monospace;
+    }
+
+    h1,
+    p {
+      margin: 0 auto;
+    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    h3 {
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      /* margin: auto; */
+      height: 100vh;
+    }
+
+    .audio {
+      /* margin: 0 auto; */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    button {
+      font-size: 1.5rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: var(--secondary-color);
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</html>
