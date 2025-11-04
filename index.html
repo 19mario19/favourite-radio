@@ -90,11 +90,11 @@
     .container {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      /* align-items: center; */
       justify-content: center;
       padding: 2rem;
       /* margin: auto; */
-      height: 100vh;
+      height: calc(100vh - 150px);
     }
 
     .audio {
@@ -103,6 +103,16 @@
       flex-direction: column;
       align-items: center;
       gap: 1rem;
+      width: inherit;
+      border: 1px solid;
+
+      padding: 2rem;
+      border-radius: 10px;
+    }
+    input[type="range"] {
+      width: 100%;
+      height: 3rem;
+      border-radius: 15px;
     }
 
     button {
